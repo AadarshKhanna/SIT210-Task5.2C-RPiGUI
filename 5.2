@@ -1,0 +1,68 @@
+from tkinter import *
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+
+#Pins for LED
+redLED = LED(16)
+blueLED = LED(20)
+greenLED = LED(21)
+
+#GUI Definations
+win = Tk()
+win.title("LED Toggler")
+myFont = tkinter.font.Font(family = 'Helvetica', size = 12, weight = 'bold')
+
+def redLedToggle():
+	if redLED.is_lit:
+		redLED.off()
+		redLedButton["text"] = "Turn Red LED On"
+	else:
+		redLED.on()
+		redLedButton["text"] = "Turn Red LED Off"	
+		blueLED.off()
+		blueLedButton["text"] = "Turn Blue LED On"
+		greenLED.off()
+		greenLedButton["text"] = "Turn Green LED On"
+		
+def blueLedToggle():
+	if blueLED.is_lit:
+		blueLED.off()
+		blueLedButton["text"] = "Turn Blue LED On"
+	else:
+		blueLED.on()
+		blueLedButton["text"] = "Turn Blue LED Off"
+		redLED.off()
+		redLedButton["text"] = "Turn Red LED On"
+		greenLED.off()
+		greenLedButton["text"] = "Turn Green LED On"
+		
+def greenLedToggle():
+	if greenLED.is_lit:
+		greenLED.off()
+		greenLedButton["text"] = "Turn Green LED On"
+	else:
+		greenLED.on()
+		greenLedButton["text"] = "Turn Green LED Off"
+		redLED.off()
+		redLedButton["text"] = "Turn Red LED On"
+		blueLED.off()
+		blueLedButton["text"] = "Turn Blue LED On"
+		
+def close():
+	RPi.GPIO.cleanup
+	win.destroy()
+	
+#Creating Widgets
+redLedButton = Button(win, text = 'Turn Red LED On', font = myFont, command = redLedToggle, bg = 'Red', height = 2, width =30)
+redLedButton.grid(row = 0, column = 1)
+
+blueLedButton = Button(win, text = 'Turn Blue LED On', font = myFont, command = blueLedToggle, bg = 'Blue', height = 2, width =30)
+blueLedButton.grid(row = 1, column = 1)
+
+greenLedButton = Button(win, text = 'Turn Green LED On', font = myFont, command = greenLedToggle, bg = 'Green', height = 2, width =30)
+greenLedButton.grid(row = 2, column = 1)
+
+ExitButton = Button(win, text = 'Exit', font = myFont, command = close, bg = 'Gray', height = 1, width = 50)
+ExitButton.grid(row = 3, column = 1)
